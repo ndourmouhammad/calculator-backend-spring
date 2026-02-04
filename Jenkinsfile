@@ -12,15 +12,15 @@ pipeline {
             }
         }
         stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('MySonarServer') {
-                    // On récupère le token via les credentials Jenkins
-                    withCredentials([string(credentialsId: 'auth-sonar', variable: 'SONAR_TOKEN')]) {
-                        sh "mvn sonar:sonar -Dsonar.token=${SONAR_TOKEN}"
-                    }
-                }
-            }
-        }
+             steps {
+                 // 'MySonarServer' est le nom configuré dans Administrer Jenkins > System
+                 withSonarQubeEnv('MySonarServer') {
+                     withCredentials([string(credentialsId: 'auth-sonar', variable: 'SONAR_TOKEN')]) {
+                         sh "mvn sonar:sonar -Dsonar.token=${SONAR_TOKEN}"
+                     }
+                 }
+             }
+         }
         stage('Deploy to Nexus') {
             steps {
                 // Cette commande utilise le fichier de config que vous avez créé dans Managed Files
