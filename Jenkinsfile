@@ -13,8 +13,11 @@ pipeline {
         }
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('MySonarServer') { // Le nom configuré dans Jenkins
-                    sh 'mvn sonar:sonar'
+                withSonarQubeEnv('MySonarServer') {
+                    // On récupère le token via les credentials Jenkins
+                    withCredentials([string(credentialsId: 'auth-sonar', variable: 'SONAR_TOKEN')]) {
+                        sh "mvn sonar:sonar -Dsonar.token=${SONAR_TOKEN}"
+                    }
                 }
             }
         }
