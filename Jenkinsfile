@@ -14,8 +14,10 @@ pipeline {
         }
         stage('Deploy to Nexus') {
             steps {
-                // Jenkins envoie le JAR vers Nexus 📦
-                sh 'mvn deploy'
+                // Cette commande utilise le fichier de config que vous avez créé dans Managed Files
+                configFileProvider([configFile(fileId: 'my-nexus-settings', variable: 'MAVEN_SETTINGS')]) {
+                    sh "mvn -s $MAVEN_SETTINGS deploy"
+                }
             }
         }
     }
