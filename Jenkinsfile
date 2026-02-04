@@ -1,5 +1,10 @@
 pipeline {
     agent any
+    tools {
+            // Le nom ici doit être EXACTEMENT le même
+            // que celui donné dans "Global Tool Configuration"
+            maven 'M3'
+    }
     stages {
         stage('Build') {
             steps {
