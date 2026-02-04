@@ -13,8 +13,9 @@ pipeline {
         }
         stage('SonarQube Analysis') {
             steps {
-                // Jenkins envoie le code à SonarQube pour examen 🧠
-                sh 'mvn sonar:sonar'
+                withSonarQubeEnv('MySonarServer') { // Le nom configuré dans Jenkins
+                    sh 'mvn sonar:sonar'
+                }
             }
         }
         stage('Deploy to Nexus') {
