@@ -13,10 +13,10 @@ pipeline {
         }
         stage('SonarQube Analysis') {
              steps {
-                 // 'MySonarServer' est le nom configuré dans Administrer Jenkins > System
                  withSonarQubeEnv('MySonarServer') {
                      withCredentials([string(credentialsId: 'auth-sonar', variable: 'SONAR_TOKEN')]) {
-                         sh "mvn sonar:sonar -Dsonar.token=${SONAR_TOKEN}"
+                         // On ajoute le chemin vers le rapport XML de JaCoCo
+                         sh "mvn sonar:sonar -Dsonar.token=${SONAR_TOKEN} -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml"
                      }
                  }
              }
